@@ -3,26 +3,35 @@ import { FaDownload, FaStar, FaArrowLeft } from "react-icons/fa";
 import { AiFillLike } from "react-icons/ai";
 import Link from "next/link";
 
+// 🌐 ডাটা ফেচিং ফাংশন (প্রোডাকশন ইউআরএল ফিক্সসহ)
 const appsPromise = async function () {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-  const res = await fetch(`${baseUrl}/data.json`);
-  const data = await res.json();
-  return data;
+  // আপনার ভেরসেল ব্যাকএন্ড বা লোকালহোস্টের জন্য ডাইরেক্ট পাথ
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://conceptual15-next.vercel.app";
+  try {
+    const res = await fetch(`${baseUrl}/data.json`, { cache: 'no-store' });
+    if (!res.ok) throw new Error("Failed to fetch data");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Fetch Error: ", error);
+    return [];
+  }
 };
 
 const AppDetailPage = async ({ params }) => {
   const { id } = await params;
-  console.log("Params ID: ", id);
   const apps = await appsPromise();
 
-  const app = apps.find((app) => app.id == id);
+  // 🛠️ String ID কে Number এ কনভার্ট করে নিখুঁতভাবে ফাইন্ড করা হলো
+  const app = apps.find((item) => Number(item.id) === Number(id));
 
-  // অ্যাপ না পাওয়া গেলে এরর মেসেজ
+  // ⚠️ অ্যাপ না পাওয়া গেলে ফাঁকা স্ক্রিন না দেখিয়ে সুন্দর এই এরর পেজটি আসবে
   if (!app) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center p-6 text-slate-200">
-        <h2 className="text-xl font-bold">App Not Found</h2>
-        <Link href="/" className="mt-4 text-[#8b5cf6] font-medium hover:underline">
+      <div className="min-h-screen bg-[#070b12] flex flex-col items-center justify-center text-center p-6 text-slate-200">
+        <h2 className="text-2xl font-bold text-white mb-2">App Not Found</h2>
+        <p className="text-sm text-slate-400 mb-6">The app with ID {id} could not be recovered.</p>
+        <Link href="/" className="px-5 py-2.5 bg-[#8b5cf6] text-white font-bold text-xs tracking-widest rounded-xl shadow-lg hover:bg-[#7c3aed] transition-all uppercase">
           Back to Home
         </Link>
       </div>
@@ -96,7 +105,7 @@ const AppDetailPage = async ({ params }) => {
             {/* রিভিউ কলাম */}
             <div className="flex flex-col justify-center items-center">
               <p className="text-base font-black text-white flex items-center gap-1.5">
-                {app?.reviews || "4.8k"} <AiFillLike className="text-cyan-400" size={14} />
+                {app?.reviews || "0"} <AiFillLike className="text-cyan-400" size={14} />
               </p>
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">Reviews</p>
             </div>
