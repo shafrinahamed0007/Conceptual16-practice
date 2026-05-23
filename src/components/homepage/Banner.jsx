@@ -28,7 +28,7 @@ const Banner = () => {
         </p>
 
         <div className="flex flex-wrap justify-center items-center gap-4 pt-4">
-          {/* গুগল প্লে বাটন */}
+       
           <button className="flex items-center gap-2.5 px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-widest rounded-xl border border-white/10 shadow-lg backdrop-blur-md transition-all active:scale-95 group">
             <FaGooglePlay
               className="text-purple-400 group-hover:scale-110 transition-transform"
