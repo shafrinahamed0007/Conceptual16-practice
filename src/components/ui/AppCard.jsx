@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { FaDownload } from "react-icons/fa";
-import { FaStar } from "react-icons/fa6"; // প্রফেশনাল লুকের জন্য সলিড স্টার ব্যবহার করা হয়েছে
+import { FaStar } from "react-icons/fa6"; 
 import Link from "next/link";
 
 const AppCard = ({ app }) => {
@@ -24,7 +24,7 @@ const AppCard = ({ app }) => {
 
       <div className="flex-grow flex flex-col justify-between space-y-4">
         <div>
-          {/* টাইটেল */}
+       
           <h3 className="text-lg font-bold tracking-tight text-white line-clamp-1 mb-0.5 group-hover:text-purple-400 transition-colors">
             {app?.title}
           </h3>
